@@ -52,12 +52,18 @@ export default function MenuItemCard({ item, currency }: Props) {
           ) : (
             <ImageIcon size={28} className="text-rose-200" />
           )}
+          
+          {/* Veg/Non-veg indicator overlay */}
+          <div className="absolute top-2 right-2 z-10 w-4 h-4 border-2 rounded-sm flex items-center justify-center bg-white/90 shadow-sm backdrop-blur-sm" style={{ borderColor: color }}>
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+          </div>
         </div>
 
         {/* Content */}
         <div className="flex-1 p-3 sm:p-4 flex flex-col">
           {/* Food type indicator */}
           <div className="flex flex-wrap items-center gap-1.5 mb-2">
+
             {item.isSpicy && (
               <span className="flex items-center gap-0.5 text-[10px] sm:text-xs text-rose-700 font-medium bg-rose-50 px-1.5 py-0.5 rounded-full whitespace-nowrap border border-rose-100">
                 <Flame size={10} className="text-rose-500" />
