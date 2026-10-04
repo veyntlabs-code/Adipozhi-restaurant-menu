@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-50: #fef7ee;
+  --color-primary-100: #fdecd3;
+  --color-primary-200: #fad5a5;
+  --color-primary-300: #f7b76c;
+  --color-primary-400: #f48d32;
+  --color-primary-500: #f17011;
+  --color-primary-600: #e25607;
+  --color-primary-700: #bb3f08;
+  --color-primary-800: #95320f;
+  --color-primary-900: #782b10;
+
+  --color-admin-bg: #0f0f14;
+  --color-admin-surface: #1a1a24;
+  --color-admin-surface2: #22222f;
+  --color-admin-border: #2e2e3d;
+  --color-admin-text: #e8e8f0;
+  --color-admin-muted: #8888a0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Admin scrollbar */
+.admin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.admin-scrollbar::-webkit-scrollbar-track {
+  background: #1a1a24;
+}
+.admin-scrollbar::-webkit-scrollbar-thumb {
+  background: #2e2e3d;
+  border-radius: 3px;
+}
+.admin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #f17011;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #1a1a24 25%, #22222f 50%, #1a1a24 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.public-skeleton {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Toast override */
+.react-hot-toast-success {
+  background: #22222f !important;
+  color: #e8e8f0 !important;
+}
