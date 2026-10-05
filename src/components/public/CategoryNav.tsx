@@ -40,7 +40,7 @@ export default function CategoryNav({ categories, activeCategories, onToggleCate
   return (
     <div className="sticky top-0 z-10 bg-white border-b border-rose-100 shadow-sm relative">
       <div className="max-w-3xl mx-auto px-4 py-2 flex items-center gap-3 w-full justify-between">
-        <div className={`text-rose-900 text-xl sm:text-2xl whitespace-nowrap ${dancingScript.className}`}>
+        <div className={`text-rose-900 text-xl sm:text-2xl whitespace-nowrap ${isSearchOpen || searchValue ? 'hidden md:block' : 'block'} ${dancingScript.className}`}>
           Where taste meets togetherness
         </div>
 
@@ -48,7 +48,7 @@ export default function CategoryNav({ categories, activeCategories, onToggleCate
         <div className="flex items-center gap-2 flex-1 justify-end" ref={searchRef}>
           {/* Inline Expanded Search Box */}
           <div
-            className={`overflow-hidden transition-all duration-300 ease-in-out ${isSearchOpen || searchValue ? 'max-w-full opacity-100 flex-1' : 'max-w-0 opacity-0 flex-none'
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${isSearchOpen || searchValue ? 'max-w-full opacity-100 w-full' : 'max-w-0 opacity-0 w-0'
               }`}
           >
             <div className="relative w-full">
@@ -73,17 +73,16 @@ export default function CategoryNav({ categories, activeCategories, onToggleCate
           </div>
 
           {/* Search Button */}
-          <div className="shrink-0">
-            <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className={`flex items-center justify-center w-9 h-9 rounded-lg border transition-colors ${isSearchOpen || searchValue
-                ? "bg-rose-900 border-rose-900 text-white"
-                : "bg-rose-50 border-rose-200 text-rose-900 hover:bg-rose-100"
-                }`}
-            >
-              <Search size={16} />
-            </button>
-          </div>
+          {!(isSearchOpen || searchValue) && (
+            <div className="shrink-0">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="flex items-center justify-center w-9 h-9 rounded-lg border transition-colors bg-rose-50 border-rose-200 text-rose-900 hover:bg-rose-100"
+              >
+                <Search size={16} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
