@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
-import { UtensilsCrossed } from "lucide-react";
+import { UtensilsCrossed, ChevronDown } from "lucide-react";
 import RestaurantHeader from "@/components/public/RestaurantHeader";
 import CategoryNav from "@/components/public/CategoryNav";
 import SearchBar from "@/components/public/SearchBar";
@@ -21,6 +21,13 @@ export default function PublicMenuPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeCategories, setActiveCategories] = useState<string[]>([]);
   const [search, setSearch] = useState("");
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategories(prev => 
+      prev.includes(categoryId) ? prev.filter(id => id !== categoryId) : [...prev, categoryId]
+    );
+  };
 
   useEffect(() => {
     if (!slug) return;
@@ -148,18 +155,33 @@ export default function PublicMenuPage() {
             </div>
           ) : groupedItems ? (
             // Grouped by category view
-            <div className="space-y-8">
+            <div className="space-y-4">
               {groupedItems.map(({ category, items }) => (
                 <section key={category._id} id={`category-${category._id}`}>
-                  <div className="flex items-center gap-3 mb-4 bg-white/90 p-3 rounded-xl shadow-sm backdrop-blur-md border border-rose-100/50">
+                  <div 
+                    onClick={() => toggleCategory(category._id)}
+                    className="flex items-center gap-3 bg-white/90 p-3 rounded-xl shadow-sm backdrop-blur-md border border-rose-100/50 cursor-pointer hover:bg-white transition-colors"
+                  >
                     <h2 className="text-lg font-bold text-rose-950">{category.name}</h2>
                     <div className="flex-1 h-px bg-gradient-to-r from-rose-200 to-transparent" />
                     <span className="text-xs text-rose-800 font-medium bg-rose-100 px-2 py-1 rounded-full">{items.length} items</span>
+                    <ChevronDown size={20} className={`text-rose-900 transition-transform duration-300 ${expandedCategories.includes(category._id) ? 'rotate-180' : ''}`} />
                   </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                    {items.map((item, index) => (
-                      <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
-                    ))}
+                  
+                  <div 
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      expandedCategories.includes(category._id)
+                        ? 'grid-rows-[1fr] opacity-100 mt-4'
+                        : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                        {items.map((item, index) => (
+                          <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </section>
               ))}
@@ -174,10 +196,7 @@ export default function PublicMenuPage() {
           )}
         </main>
 
-        {/* Footer */}
-        <footer className="text-center py-8 text-xs text-white/80 pb-12">
-          <p>Digital menu powered by MenuCraft</p>
-        </footer>
+
       </div>
     </div>
   );
