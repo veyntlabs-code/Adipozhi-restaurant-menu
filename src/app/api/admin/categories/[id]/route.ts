@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import Category from "@/models/Category";
-import MenuItem from "@/models/MenuItem";
 import { verifyRequestAuth } from "@/lib/auth";
+import { readData, writeData } from "@/lib/localDb";
 
 export async function PUT(
   request: NextRequest,
@@ -16,22 +14,26 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    await connectDB();
 
-    const category = await Category.findOne({ _id: id, restaurantId: payload.restaurantId });
-    if (!category) {
+    const data = readData();
+    const categoryIndex = data.categories.findIndex((c) => c._id === id && c.restaurantId === payload.restaurantId);
+    
+    if (categoryIndex === -1) {
       return NextResponse.json({ success: false, error: "Category not found" }, { status: 404 });
     }
 
+    const category = data.categories[categoryIndex];
     const allowed = ["name", "description", "displayOrder", "isActive"];
+    
     for (const key of allowed) {
       if (key in body) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (category as any)[key] = body[key];
       }
     }
 
-    await category.save();
+    category.updatedAt = new Date().toISOString();
+    writeData(data);
+
     return NextResponse.json({ success: true, data: category });
   } catch (error) {
     console.error("Update category error:", error);
@@ -50,13 +52,10 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    await connectDB();
 
-    // Check for items in this category
-    const itemCount = await MenuItem.countDocuments({
-      categoryId: id,
-      restaurantId: payload.restaurantId,
-    });
+    const data = readData();
+    
+    const itemCount = data.menuitems.filter((m) => m.categoryId === id && m.restaurantId === payload.restaurantId).length;
     if (itemCount > 0) {
       return NextResponse.json(
         { success: false, error: `Cannot delete category with ${itemCount} menu item(s). Move or delete items first.` },
@@ -64,14 +63,13 @@ export async function DELETE(
       );
     }
 
-    const category = await Category.findOneAndDelete({
-      _id: id,
-      restaurantId: payload.restaurantId,
-    });
-
-    if (!category) {
+    const categoryIndex = data.categories.findIndex((c) => c._id === id && c.restaurantId === payload.restaurantId);
+    if (categoryIndex === -1) {
       return NextResponse.json({ success: false, error: "Category not found" }, { status: 404 });
     }
+
+    data.categories.splice(categoryIndex, 1);
+    writeData(data);
 
     return NextResponse.json({ success: true, message: "Category deleted successfully" });
   } catch (error) {

@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import Restaurant from "@/models/Restaurant";
 import { verifyRequestAuth } from "@/lib/auth";
 import { slugify } from "@/lib/slugify";
+import { readData, writeData } from "@/lib/localDb";
 
 export async function GET(request: NextRequest) {
   const payload = await verifyRequestAuth(request);
@@ -11,8 +10,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await connectDB();
-    const restaurant = await Restaurant.findById(payload.restaurantId).lean();
+    const data = readData();
+    const restaurant = data.restaurants.find((r) => r._id === payload.restaurantId);
+    
     if (!restaurant) {
       return NextResponse.json({ success: false, error: "Restaurant not found" }, { status: 404 });
     }
@@ -32,23 +32,24 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    await connectDB();
-
-    const restaurant = await Restaurant.findById(payload.restaurantId);
-    if (!restaurant) {
+    
+    const data = readData();
+    const restaurantIndex = data.restaurants.findIndex((r) => r._id === payload.restaurantId);
+    
+    if (restaurantIndex === -1) {
       return NextResponse.json({ success: false, error: "Restaurant not found" }, { status: 404 });
     }
 
-    // If name changed and no explicit slug provided, regenerate slug
+    const restaurant = data.restaurants[restaurantIndex];
+
     if (body.name && !body.slug) {
       body.slug = slugify(body.name);
     } else if (body.slug) {
       body.slug = slugify(body.slug);
     }
 
-    // Check slug uniqueness if slug changed
     if (body.slug && body.slug !== restaurant.slug) {
-      const existing = await Restaurant.findOne({ slug: body.slug, _id: { $ne: restaurant._id } });
+      const existing = data.restaurants.find((r) => r.slug === body.slug && r._id !== restaurant._id);
       if (existing) {
         return NextResponse.json(
           { success: false, error: "This URL slug is already taken" },
@@ -60,12 +61,13 @@ export async function PUT(request: NextRequest) {
     const allowed = ["name", "slug", "logo", "description", "phone", "address", "currency", "isActive"];
     for (const key of allowed) {
       if (key in body) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (restaurant as any)[key] = body[key];
       }
     }
 
-    await restaurant.save();
+    restaurant.updatedAt = new Date().toISOString();
+    writeData(data);
+
     return NextResponse.json({ success: true, data: restaurant });
   } catch (error) {
     console.error("Update restaurant error:", error);

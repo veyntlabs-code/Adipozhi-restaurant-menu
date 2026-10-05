@@ -48,7 +48,8 @@ export default function PublicMenuPage() {
   // Filter items based on category and search
   const filteredItems = useMemo(() => {
     return menuItems.filter((item) => {
-      const categoryMatch = activeCategories.length === 0 || activeCategories.includes(item.categoryId);
+      const itemCatId = typeof item.categoryId === 'string' ? item.categoryId : item.categoryId._id;
+      const categoryMatch = activeCategories.length === 0 || activeCategories.includes(itemCatId);
       const searchMatch = !search ||
         item.name.toLowerCase().includes(search.toLowerCase()) ||
         item.description?.toLowerCase().includes(search.toLowerCase());
@@ -64,7 +65,10 @@ export default function PublicMenuPage() {
     }
     const groups: { category: ICategory; items: IMenuItem[] }[] = [];
     categories.forEach((cat) => {
-      const items = menuItems.filter((item) => item.categoryId === cat._id);
+      const items = menuItems.filter((item) => {
+        const itemCatId = typeof item.categoryId === 'string' ? item.categoryId : item.categoryId._id;
+        return itemCatId === cat._id;
+      });
       if (items.length > 0) groups.push({ category: cat, items });
     });
     return groups;
@@ -153,8 +157,8 @@ export default function PublicMenuPage() {
                     <span className="text-xs text-rose-800 font-medium bg-rose-100 px-2 py-1 rounded-full">{items.length} items</span>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                    {items.map((item) => (
-                      <MenuItemCard key={item._id} item={item} currency={restaurant.currency} />
+                    {items.map((item, index) => (
+                      <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
                     ))}
                   </div>
                 </section>
@@ -163,8 +167,8 @@ export default function PublicMenuPage() {
           ) : (
             // Flat filtered view
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-              {filteredItems.map((item) => (
-                <MenuItemCard key={item._id} item={item} currency={restaurant.currency} />
+              {filteredItems.map((item, index) => (
+                <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
               ))}
             </div>
           )}

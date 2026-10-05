@@ -8,9 +8,10 @@ import type { IMenuItem } from "@/types";
 interface Props {
   item: IMenuItem;
   currency: string;
+  priority?: boolean;
 }
 
-export default function MenuItemCard({ item, currency }: Props) {
+export default function MenuItemCard({ item, currency, priority = false }: Props) {
   const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -47,6 +48,8 @@ export default function MenuItemCard({ item, currency }: Props) {
               src={item.image}
               alt={item.name}
               fill
+              priority={priority}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
@@ -124,6 +127,7 @@ export default function MenuItemCard({ item, currency }: Props) {
                   src={item.image}
                   alt={item.name}
                   fill
+                  sizes="(max-width: 640px) 100vw, 512px"
                   className="object-cover"
                 />
               ) : (
@@ -146,7 +150,7 @@ export default function MenuItemCard({ item, currency }: Props) {
                 {item.isFeatured && (
                   <span className="flex items-center gap-1 text-xs text-amber-700 font-medium bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">
                     <Star size={12} className="fill-amber-500 text-amber-500" />
-                    Chef's Pick
+                    Chef&apos;s Pick
                   </span>
                 )}
               </div>

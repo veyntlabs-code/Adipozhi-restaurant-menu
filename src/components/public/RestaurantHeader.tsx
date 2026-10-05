@@ -14,6 +14,8 @@ export default function RestaurantHeader({ restaurant }: { restaurant: IRestaura
             src={restaurant.logo || "/logo.png"}
             alt="Restaurant Logo"
             fill
+            priority
+            sizes="(max-width: 640px) 224px, 256px"
             className="object-contain drop-shadow-md"
           />
         </div>

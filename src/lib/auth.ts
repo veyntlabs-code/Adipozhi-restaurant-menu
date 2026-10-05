@@ -2,6 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import type { JWTPayload } from "@/types";
+import { readData } from "@/lib/localDb";
 
 const SECRET = new TextEncoder().encode(
   process.env.AUTH_SECRET || "fallback-secret-change-in-production"
@@ -51,7 +52,20 @@ export async function getAuthToken(): Promise<string | null> {
 export async function getAuthPayload(): Promise<JWTPayload | null> {
   const token = await getAuthToken();
   if (!token) return null;
-  return verifyToken(token);
+  const payload = await verifyToken(token);
+  if (!payload) return null;
+
+  try {
+    const data = readData();
+    const exists = data.restaurants.find(r => r._id === payload.restaurantId);
+    if (!exists && data.restaurants.length > 0) {
+      payload.restaurantId = data.restaurants[0]._id;
+    }
+  } catch (error) {
+    console.error("getAuthPayload error", error);
+  }
+
+  return payload;
 }
 
 export function getTokenFromRequest(req: NextRequest): string | null {
@@ -61,5 +75,18 @@ export function getTokenFromRequest(req: NextRequest): string | null {
 export async function verifyRequestAuth(req: NextRequest): Promise<JWTPayload | null> {
   const token = getTokenFromRequest(req);
   if (!token) return null;
-  return verifyToken(token);
+  const payload = await verifyToken(token);
+  if (!payload) return null;
+
+  try {
+    const data = readData();
+    const exists = data.restaurants.find(r => r._id === payload.restaurantId);
+    if (!exists && data.restaurants.length > 0) {
+      payload.restaurantId = data.restaurants[0]._id;
+    }
+  } catch (error) {
+    console.error("verifyRequestAuth error", error);
+  }
+
+  return payload;
 }

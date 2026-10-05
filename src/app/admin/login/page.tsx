@@ -63,8 +63,8 @@ export default function LoginPage() {
 
         {/* Card */}
         <div className="bg-[#1a1a24] border border-[#2e2e3d] rounded-2xl p-6 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
+          <form onSubmit={handleSubmit} className="space-y-4" suppressHydrationWarning>
+            <div suppressHydrationWarning>
               <label htmlFor="email" className="block text-xs font-medium text-[#8888a0] uppercase tracking-wider mb-1.5">
                 Email Address
               </label>
@@ -79,7 +79,7 @@ export default function LoginPage() {
               />
             </div>
 
-            <div>
+            <div suppressHydrationWarning>
               <label htmlFor="password" className="block text-xs font-medium text-[#8888a0] uppercase tracking-wider mb-1.5">
                 Password
               </label>

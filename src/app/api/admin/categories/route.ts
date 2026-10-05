@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import Category from "@/models/Category";
 import { verifyRequestAuth } from "@/lib/auth";
+import { readData, writeData } from "@/lib/localDb";
+import crypto from "crypto";
 
 export async function GET(request: NextRequest) {
   const payload = await verifyRequestAuth(request);
@@ -10,10 +10,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await connectDB();
-    const categories = await Category.find({ restaurantId: payload.restaurantId })
-      .sort({ displayOrder: 1, createdAt: 1 })
-      .lean();
+    const data = readData();
+    const categories = data.categories
+      .filter((c) => c.restaurantId === payload.restaurantId)
+      .sort((a, b) => {
+        if (a.displayOrder !== b.displayOrder) return a.displayOrder - b.displayOrder;
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
 
     return NextResponse.json({ success: true, data: categories });
   } catch (error) {
@@ -36,15 +39,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Category name is required" }, { status: 400 });
     }
 
-    await connectDB();
-    const category = await Category.create({
+    const data = readData();
+    const newCategory = {
+      _id: crypto.randomBytes(12).toString("hex"),
       restaurantId: payload.restaurantId,
       name: name.trim(),
       description: description?.trim(),
       displayOrder: Number(displayOrder) || 0,
-    });
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
 
-    return NextResponse.json({ success: true, data: category }, { status: 201 });
+    data.categories.push(newCategory);
+    writeData(data);
+
+    return NextResponse.json({ success: true, data: newCategory }, { status: 201 });
   } catch (error) {
     console.error("Create category error:", error);
     return NextResponse.json({ success: false, error: "Internal server error" }, { status: 500 });

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import MenuItem from "@/models/MenuItem";
 import { verifyRequestAuth } from "@/lib/auth";
+import { readData, writeData } from "@/lib/localDb";
 
 export async function PUT(
   request: NextRequest,
@@ -15,23 +14,26 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    await connectDB();
 
-    // Ensure item belongs to this admin's restaurant
-    const item = await MenuItem.findOne({ _id: id, restaurantId: payload.restaurantId });
-    if (!item) {
+    const data = readData();
+    const itemIndex = data.menuitems.findIndex((m) => m._id === id && m.restaurantId === payload.restaurantId);
+    
+    if (itemIndex === -1) {
       return NextResponse.json({ success: false, error: "Item not found" }, { status: 404 });
     }
 
+    const item = data.menuitems[itemIndex];
     const allowed = ["name", "description", "categoryId", "price", "image", "foodType", "isSpicy", "isFeatured", "isAvailable", "displayOrder"];
+    
     for (const key of allowed) {
       if (key in body) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (item as any)[key] = body[key];
       }
     }
 
-    await item.save();
+    item.updatedAt = new Date().toISOString();
+    writeData(data);
+
     return NextResponse.json({ success: true, data: item });
   } catch (error) {
     console.error("Update menu item error:", error);
@@ -50,17 +52,16 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    await connectDB();
 
-    // Ensure item belongs to this admin's restaurant
-    const item = await MenuItem.findOneAndDelete({
-      _id: id,
-      restaurantId: payload.restaurantId,
-    });
-
-    if (!item) {
+    const data = readData();
+    const itemIndex = data.menuitems.findIndex((m) => m._id === id && m.restaurantId === payload.restaurantId);
+    
+    if (itemIndex === -1) {
       return NextResponse.json({ success: false, error: "Item not found" }, { status: 404 });
     }
+
+    data.menuitems.splice(itemIndex, 1);
+    writeData(data);
 
     return NextResponse.json({ success: true, message: "Item deleted successfully" });
   } catch (error) {

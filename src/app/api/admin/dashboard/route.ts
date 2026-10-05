@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import MenuItem from "@/models/MenuItem";
-import Category from "@/models/Category";
 import { verifyRequestAuth } from "@/lib/auth";
+import { readData } from "@/lib/localDb";
 
 export async function GET(request: NextRequest) {
   const payload = await verifyRequestAuth(request);
@@ -11,17 +9,23 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    await connectDB();
-    const [totalItems, availableItems, totalCategories, recentItems] = await Promise.all([
-      MenuItem.countDocuments({ restaurantId: payload.restaurantId }),
-      MenuItem.countDocuments({ restaurantId: payload.restaurantId, isAvailable: true }),
-      Category.countDocuments({ restaurantId: payload.restaurantId }),
-      MenuItem.find({ restaurantId: payload.restaurantId })
-        .populate("categoryId", "name")
-        .sort({ createdAt: -1 })
-        .limit(5)
-        .lean(),
-    ]);
+    const data = readData();
+
+    const menuItems = data.menuitems.filter((m) => m.restaurantId === payload.restaurantId);
+    const totalItems = menuItems.length;
+    const availableItems = menuItems.filter((m) => m.isAvailable).length;
+    const totalCategories = data.categories.filter((c) => c.restaurantId === payload.restaurantId).length;
+
+    const recentItems = [...menuItems]
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 5)
+      .map(item => {
+        const cat = data.categories.find(c => c._id === item.categoryId);
+        return {
+          ...item,
+          categoryId: cat ? { _id: cat._id, name: cat.name } : item.categoryId
+        };
+      });
 
     return NextResponse.json({
       success: true,

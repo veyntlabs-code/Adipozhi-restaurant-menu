@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import Restaurant from "@/models/Restaurant";
-import Category from "@/models/Category";
-import MenuItem from "@/models/MenuItem";
+import { readData } from "@/lib/localDb";
 
 export async function GET(
   _request: NextRequest,
@@ -10,9 +7,9 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    await connectDB();
+    const data = readData();
 
-    const restaurant = await Restaurant.findOne({ slug, isActive: true }).lean();
+    const restaurant = data.restaurants.find((r) => r.slug === slug && r.isActive);
     if (!restaurant) {
       return NextResponse.json(
         { success: false, error: "Restaurant not found" },
@@ -20,19 +17,19 @@ export async function GET(
       );
     }
 
-    const categories = await Category.find({
-      restaurantId: restaurant._id,
-      isActive: true,
-    })
-      .sort({ displayOrder: 1, createdAt: 1 })
-      .lean();
+    const categories = data.categories
+      .filter((c) => c.restaurantId === restaurant._id && c.isActive)
+      .sort((a, b) => {
+        if (a.displayOrder !== b.displayOrder) return a.displayOrder - b.displayOrder;
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
 
-    const menuItems = await MenuItem.find({
-      restaurantId: restaurant._id,
-      isAvailable: true,
-    })
-      .sort({ displayOrder: 1, createdAt: 1 })
-      .lean();
+    const menuItems = data.menuitems
+      .filter((m) => m.restaurantId === restaurant._id && m.isAvailable)
+      .sort((a, b) => {
+        if (a.displayOrder !== b.displayOrder) return a.displayOrder - b.displayOrder;
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
 
     return NextResponse.json({
       success: true,

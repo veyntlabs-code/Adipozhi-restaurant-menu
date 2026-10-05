@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/lib/mongoose";
-import Restaurant from "@/models/Restaurant";
+import { readData } from "@/lib/localDb";
 
 export async function GET(
   _request: NextRequest,
@@ -8,9 +7,9 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    await connectDB();
+    const data = readData();
 
-    const restaurant = await Restaurant.findOne({ slug, isActive: true }).lean();
+    const restaurant = data.restaurants.find((r) => r.slug === slug && r.isActive);
     if (!restaurant) {
       return NextResponse.json(
         { success: false, error: "Restaurant not found" },

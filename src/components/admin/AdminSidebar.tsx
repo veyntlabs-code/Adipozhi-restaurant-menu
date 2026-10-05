@@ -43,7 +43,7 @@ export default function AdminSidebar() {
     }
   };
 
-  const SidebarContent = () => (
+  const renderSidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className={`flex items-center gap-3 px-4 py-5 border-b border-[#2e2e3d] ${collapsed ? "justify-center" : ""}`}>
@@ -104,7 +104,7 @@ export default function AdminSidebar() {
           collapsed ? "w-16" : "w-60"
         }`}
       >
-        <SidebarContent />
+        {renderSidebarContent()}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-[#2e2e3d] border border-[#3a3a4d] flex items-center justify-center text-[#8888a0] hover:text-[#e8e8f0] transition-colors z-10"
@@ -138,7 +138,7 @@ export default function AdminSidebar() {
           />
           <aside className="lg:hidden fixed top-0 left-0 bottom-0 w-64 bg-[#1a1a24] z-50 shadow-2xl animate-slide-in">
             <div className="pt-16">
-              <SidebarContent />
+              {renderSidebarContent()}
             </div>
           </aside>
         </>

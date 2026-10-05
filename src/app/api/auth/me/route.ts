@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAuthPayload } from "@/lib/auth";
-import connectDB from "@/lib/mongoose";
-import AdminUser from "@/models/AdminUser";
+import { readData } from "@/lib/localDb";
 
 export async function GET() {
   const payload = await getAuthPayload();
@@ -9,11 +8,13 @@ export async function GET() {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
 
-  await connectDB();
-  const admin = await AdminUser.findById(payload.userId).select("-passwordHash");
+  const data = readData();
+  const admin = data.adminusers.find((a) => a._id === payload.userId);
   if (!admin) {
     return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ success: true, data: admin });
+  const { passwordHash, ...adminWithoutPassword } = admin;
+
+  return NextResponse.json({ success: true, data: adminWithoutPassword });
 }

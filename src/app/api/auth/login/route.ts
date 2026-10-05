@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import connectDB from "@/lib/mongoose";
-import AdminUser from "@/models/AdminUser";
+import { readData } from "@/lib/localDb";
 import { signToken, setAuthCookie } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
@@ -16,9 +15,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await connectDB();
-
-    const admin = await AdminUser.findOne({ email: email.toLowerCase().trim() });
+    const data = readData();
+    const admin = data.adminusers.find((a) => a.email === email.toLowerCase().trim());
+    
     if (!admin) {
       return NextResponse.json(
         { success: false, error: "Invalid credentials" },
@@ -35,8 +34,8 @@ export async function POST(request: NextRequest) {
     }
 
     const token = await signToken({
-      userId: admin._id.toString(),
-      restaurantId: admin.restaurantId.toString(),
+      userId: admin._id,
+      restaurantId: admin.restaurantId,
       email: admin.email,
       role: admin.role,
     });

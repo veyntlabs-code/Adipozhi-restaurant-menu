@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require("fs");
 const queue = JSON.parse(fs.readFileSync("queue.json", "utf8"));
 const artifacts = [
