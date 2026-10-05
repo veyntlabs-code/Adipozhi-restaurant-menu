@@ -43,7 +43,8 @@
       "displayOrder": 2,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.089Z",
-      "updatedAt": "2026-10-05T11:00:30.081Z"
+      "updatedAt": "2026-10-05T11:00:30.081Z",
+      "image": "/categories/cat_soups.jpg"
     },
     {
       "_id": "bde9052aae935add45699593",
@@ -52,7 +53,8 @@
       "displayOrder": 1,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.089Z",
-      "updatedAt": "2026-10-05T11:00:30.097Z"
+      "updatedAt": "2026-10-05T11:00:30.097Z",
+      "image": "/categories/cat_egg.jpg"
     },
     {
       "_id": "af0739965255d0e3da668fca",
@@ -61,7 +63,8 @@
       "displayOrder": 3,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.089Z",
-      "updatedAt": "2026-10-05T10:38:45.089Z"
+      "updatedAt": "2026-10-05T10:38:45.089Z",
+      "image": "/categories/cat_veg_start.jpg"
     },
     {
       "_id": "f40d47c84198ce6579cb8fbb",
@@ -70,7 +73,8 @@
       "displayOrder": 4,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_chicken_start.jpg"
     },
     {
       "_id": "49fff2eb77329650293f026d",
@@ -79,7 +83,8 @@
       "displayOrder": 5,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_mutton_start.jpg"
     },
     {
       "_id": "44f774b5987a19aca6fce739",
@@ -88,7 +93,8 @@
       "displayOrder": 6,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_beef_start.jpg"
     },
     {
       "_id": "231e947a18f4fb4c2f81978f",
@@ -97,7 +103,8 @@
       "displayOrder": 7,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_seafood_start.jpg"
     },
     {
       "_id": "8386f09592182093d619dd02",
@@ -106,7 +113,8 @@
       "displayOrder": 8,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_arabian_start.jpg"
     },
     {
       "_id": "71edf2880ec905d6d50904d8",
@@ -115,7 +123,8 @@
       "displayOrder": 9,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_arabian_spicy.jpg"
     },
     {
       "_id": "064053c1c54888ed1da7846d",
@@ -124,7 +133,8 @@
       "displayOrder": 10,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_pulao.jpg"
     },
     {
       "_id": "bd732959b205289db9d79bfd",
@@ -133,7 +143,8 @@
       "displayOrder": 11,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "/categories/cat_biriyani.jpg"
     },
     {
       "_id": "6c05ea977ead4325bd490fe6",
@@ -142,7 +153,8 @@
       "displayOrder": 12,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80"
     },
     {
       "_id": "0e3385287f6e8c70c1650740",
@@ -151,7 +163,8 @@
       "displayOrder": 13,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80"
     },
     {
       "_id": "3e8bbf0288661a8ba5e1ea5a",
@@ -160,7 +173,8 @@
       "displayOrder": 14,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80"
     },
     {
       "_id": "033ae32f90c13cd98848d390",
@@ -169,7 +183,8 @@
       "displayOrder": 15,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1552611052-33e04de081de?w=600&q=80"
     },
     {
       "_id": "9f53d086a85eb15deb65b40f",
@@ -178,7 +193,8 @@
       "displayOrder": 16,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=80"
     },
     {
       "_id": "c1ce38099abf78527ac9376d",
@@ -187,7 +203,8 @@
       "displayOrder": 17,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=80"
     },
     {
       "_id": "08785eb857a8c9b93dc1ac0a",
@@ -196,7 +213,8 @@
       "displayOrder": 18,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=600&q=80"
     },
     {
       "_id": "da3b34a58b2afcaeb655d745",
@@ -205,7 +223,8 @@
       "displayOrder": 19,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&q=80"
     },
     {
       "_id": "5c6f50f954f3a82e34a91c96",
@@ -214,7 +233,8 @@
       "displayOrder": 20,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=600&q=80"
     },
     {
       "_id": "2e5b87cea628ff23965b8b3c",
@@ -223,7 +243,8 @@
       "displayOrder": 21,
       "isActive": true,
       "createdAt": "2026-10-05T10:38:45.090Z",
-      "updatedAt": "2026-10-05T10:38:45.090Z"
+      "updatedAt": "2026-10-05T10:38:45.090Z",
+      "image": "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=600&q=80"
     }
   ],
   "menuitems": [

@@ -139,58 +139,48 @@ export default function PublicMenuPage() {
 
 
         <main className="max-w-3xl mx-auto px-4 py-6">
-          {filteredItems.length === 0 && (groupedItems === null || groupedItems.length === 0) ? (
-            <div className="text-center py-16 bg-white/95 rounded-2xl shadow-sm backdrop-blur-sm border border-rose-100">
-              <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-4">
-                <UtensilsCrossed size={28} className="text-rose-200" />
-              </div>
-              <p className="text-rose-900/60 font-medium">
-                {search ? `No items found for "${search}"` : "No menu items available"}
-              </p>
-              {search && (
+          {search ? (
+            filteredItems.length === 0 ? (
+              <div className="text-center py-16 bg-white/95 rounded-2xl shadow-sm backdrop-blur-sm border border-rose-100">
+                <div className="w-16 h-16 rounded-full bg-rose-50 flex items-center justify-center mx-auto mb-4">
+                  <UtensilsCrossed size={28} className="text-rose-200" />
+                </div>
+                <p className="text-rose-900/60 font-medium">No items found for "{search}"</p>
                 <button onClick={() => setSearch("")} className="mt-3 text-sm text-rose-800 hover:text-rose-900 hover:underline transition-colors">
                   Clear search
                 </button>
-              )}
-            </div>
-          ) : groupedItems ? (
-            // Grouped by category view
-            <div className="space-y-4">
-              {groupedItems.map(({ category, items }) => (
-                <section key={category._id} id={`category-${category._id}`}>
-                  <div 
-                    onClick={() => toggleCategory(category._id)}
-                    className="flex items-center gap-3 bg-white/90 p-3 rounded-xl shadow-sm backdrop-blur-md border border-rose-100/50 cursor-pointer hover:bg-white transition-colors"
-                  >
-                    <h2 className="text-lg font-bold text-rose-950">{category.name}</h2>
-                    <div className="flex-1 h-px bg-gradient-to-r from-rose-200 to-transparent" />
-                    <span className="text-xs text-rose-800 font-medium bg-rose-100 px-2 py-1 rounded-full">{items.length} items</span>
-                    <ChevronDown size={20} className={`text-rose-900 transition-transform duration-300 ${expandedCategories.includes(category._id) ? 'rotate-180' : ''}`} />
-                  </div>
-                  
-                  <div 
-                    className={`grid transition-all duration-300 ease-in-out ${
-                      expandedCategories.includes(category._id)
-                        ? 'grid-rows-[1fr] opacity-100 mt-4'
-                        : 'grid-rows-[0fr] opacity-0'
-                    }`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-                        {items.map((item, index) => (
-                          <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              ))}
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                {filteredItems.map((item, index) => (
+                  <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
+                ))}
+              </div>
+            )
           ) : (
-            // Flat filtered view
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-              {filteredItems.map((item, index) => (
-                <MenuItemCard key={item._id} item={item} currency={restaurant.currency} priority={index < 4} />
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
+              {categories.map((category) => (
+                <a
+                  key={category._id}
+                  href={`/menu/${slug}/category/${category._id}`}
+                  className="flex flex-col bg-white/90 rounded-2xl shadow-sm backdrop-blur-md border border-rose-100 overflow-hidden hover:shadow-md transition-all group"
+                >
+                  <div className="aspect-[4/3] w-full bg-rose-50 relative overflow-hidden">
+                    {category.image ? (
+                      <img src={category.image} alt={category.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <UtensilsCrossed size={32} className="text-rose-200" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-3 text-center">
+                    <h2 className="text-lg font-bold text-rose-950">{category.name}</h2>
+                    {category.description && (
+                      <p className="text-xs text-rose-800/70 mt-1 line-clamp-1">{category.description}</p>
+                    )}
+                  </div>
+                </a>
               ))}
             </div>
           )}

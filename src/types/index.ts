@@ -32,6 +32,7 @@ export interface ICategory {
   restaurantId: string;
   name: string;
   description?: string;
+  image?: string;
   displayOrder: number;
   isActive: boolean;
   createdAt: string;
