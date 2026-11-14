@@ -258,18 +258,6 @@ export default function MenuItemForm({ categories, item, onClose, onSave }: Prop
               </button>
             ))}
           </div>
-
-          {/* Display Order */}
-          <div>
-            <label className="block text-xs font-medium text-[#8888a0] uppercase tracking-wider mb-1.5">Display Order</label>
-            <input
-              type="number"
-              min="0"
-              value={form.displayOrder}
-              onChange={(e) => setForm((f) => ({ ...f, displayOrder: e.target.value }))}
-              className="w-32 px-4 py-2.5 rounded-xl bg-[#0f0f14] border border-[#2e2e3d] text-[#e8e8f0] focus:outline-none focus:border-[#f17011]/50 transition-colors text-sm"
-            />
-          </div>
         </form>
 
         {/* Footer */}
