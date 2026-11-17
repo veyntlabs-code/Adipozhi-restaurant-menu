@@ -18,21 +18,21 @@
       "_id": "385028b9df53cea57b862fd8",
       "name": "Restaurant Admin",
       "email": "admin@royalrestaurant.com",
-      "passwordHash": "$2b$12$7aRKfNH914IeYI/0Qolxw.p/.42U.K0bc5xVp8vyX2DZJjCZzmDhy",
+      "passwordHash": "$2b$12$0nsmW1L7v1TC6vdvhId15uQ0ldVuzqbBP4a8pT08ZrqvKZmUnCeb2",
       "restaurantId": "f532cf1adf4b80b9d6997617",
       "role": "ADMIN",
       "createdAt": "2026-10-05T10:38:45.089Z",
-      "updatedAt": "2026-10-05T10:38:45.089Z"
+      "updatedAt": "2026-11-17T06:25:51.975Z"
     },
     {
       "_id": "8b7ce5bac9dcd16128d54a5c",
       "name": "Adipozhi Admin",
-      "email": "admin@adipozhi.com",
-      "passwordHash": "$2b$12$7aRKfNH914IeYI/0Qolxw.p/.42U.K0bc5xVp8vyX2DZJjCZzmDhy",
+      "email": "adipozhirestaurant@gmail.com",
+      "passwordHash": "$2b$12$0nsmW1L7v1TC6vdvhId15uQ0ldVuzqbBP4a8pT08ZrqvKZmUnCeb2",
       "restaurantId": "f532cf1adf4b80b9d6997617",
       "role": "ADMIN",
       "createdAt": "2026-10-05T10:38:45.089Z",
-      "updatedAt": "2026-10-05T10:38:45.089Z"
+      "updatedAt": "2026-11-17T06:25:51.974Z"
     }
   ],
   "categories": [

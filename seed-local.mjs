@@ -304,8 +304,8 @@ async function seed() {
       updatedAt: new Date()
     });
 
-    const passwordHash = await bcrypt.hash("Admin@123", 12);
-    
+    const passwordHash = await bcrypt.hash("Adipozhi@2026", 12);
+
     data.adminusers.push({
       _id: generateId(),
       name: "Restaurant Admin",
@@ -320,7 +320,7 @@ async function seed() {
     data.adminusers.push({
       _id: generateId(),
       name: "Adipozhi Admin",
-      email: "admin@adipozhi.com",
+      email: "adipozhirestaurant@gmail.com",
       passwordHash,
       restaurantId,
       role: "ADMIN",

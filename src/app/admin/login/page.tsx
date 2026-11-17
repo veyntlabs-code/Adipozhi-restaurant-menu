@@ -74,7 +74,7 @@ export default function LoginPage() {
                 autoComplete="email"
                 value={form.email}
                 onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                placeholder="admin@restaurant.com"
+                placeholder="adipozhirestaurant@gmail.com"
                 className="w-full px-4 py-3 rounded-xl bg-[#0f0f14] border border-[#2e2e3d] text-[#e8e8f0] placeholder:text-[#8888a0] focus:outline-none focus:border-[#f17011]/50 focus:ring-1 focus:ring-[#f17011]/20 transition-all text-sm"
               />
             </div>
@@ -113,16 +113,6 @@ export default function LoginPage() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
-        </div>
-
-        {/* Demo hint */}
-        <div className="mt-4 p-3 bg-[#1a1a24]/50 border border-[#2e2e3d]/50 rounded-xl text-center">
-          <p className="text-xs text-[#8888a0]">
-            Demo: <span className="text-[#f17011]">admin@royalrestaurant.com</span> / <span className="text-[#f17011]">Admin@123</span>
-          </p>
-          <p className="text-xs text-[#8888a0] mt-1">
-            Run <code className="bg-[#22222f] px-1 rounded text-[#f17011]">POST /api/seed</code> to seed demo data
-          </p>
         </div>
       </div>
     </div>
